@@ -1,0 +1,19 @@
+{
+  "scriptId": "GAS script ID",
+  "rootDir": ".",
+  "scriptExtensions": [
+    ".js",
+    ".gs"
+  ],
+  "htmlExtensions": [
+    ".html"
+  ],
+  "jsonExtensions": [
+    ".json"
+  ],
+  "filePushOrder": [],
+  "skipSubdirectories": false,
+  "sps1": "スプレッドシートURL",
+  "sps2": "スプレッドシートURL",
+  "sps3": "スプレッドシートURL"
+}

@@ -86,7 +86,7 @@ class DataManager {
 ```json
 {
   "scriptId": "GAS script ID",
-  "rootDir": "",
+  "rootDir": ".",
   "scriptExtensions": [
     ".js",
     ".gs"
