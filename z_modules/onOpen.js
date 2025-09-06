@@ -5,67 +5,59 @@
  */
 
 /**
- * スプレッドシートが開かれた時に実行される関数
- * カスタムメニューを自動生成します
+ * カスタムメニューを作成する関数
+ * ルートのonOpen.jsから呼び出されます
  */
-function onOpen() {
+function createCustomMenu() {
   try {
     Logger.log('onOpenイベントが実行されました');
     
-    // カスタムメニューの作成
-    createCustomMenu();
+    const ui = SpreadsheetApp.getUi();
+    
+    // メインメニューの作成
+    const mainMenu = ui.createMenu(CONFIG.APP_NAME);
+    
+    // メニュー項目の追加
+    mainMenu.addItem('🚀 アプリケーション初期化', 'initializeApp');
+    mainMenu.addItem('▶️ メイン処理実行', 'runMainProcess');
+    mainMenu.addSeparator();
+    
+    // 設定サブメニュー
+    const settingsMenu = ui.createMenu('⚙️ 設定');
+    settingsMenu.addItem('📊 ログ表示', 'showLogSheet');
+    settingsMenu.addItem('🗑️ ログクリア', 'clearLogs');
+    settingsMenu.addItem('ℹ️ アプリケーション情報', 'showAppInfo');
+    
+    mainMenu.addSubMenu(settingsMenu);
+    mainMenu.addSeparator();
+    
+    // テスト・デバッグメニュー（開発モード時のみ）
+    if (CONFIG.ENVIRONMENT.DEBUG_MODE) {
+      const debugMenu = ui.createMenu('🔧 デバッグ');
+      debugMenu.addItem('🧪 テスト実行', 'testRun');
+      debugMenu.addItem('📝 設定確認', 'showConfig');
+      debugMenu.addItem('💾 シート設定', 'setupSheets');
+      
+      mainMenu.addSubMenu(debugMenu);
+    }
+    
+    // ヘルプメニュー
+    mainMenu.addSeparator();
+    mainMenu.addItem('❓ ヘルプ', 'showHelp');
+    
+    // メニューをスプレッドシートに追加
+    mainMenu.addToUi();
     
     // アプリケーションの初期化（必要に応じて）
     if (CONFIG.ENVIRONMENT.IS_DEVELOPMENT) {
       Logger.log('開発モードでonOpenが実行されました');
     }
     
+    Logger.log('カスタムメニューが作成されました');
+    
   } catch (error) {
     Logger.log(`onOpenでエラーが発生しました: ${error.toString()}`);
   }
-}
-
-/**
- * カスタムメニューを作成する関数
- */
-function createCustomMenu() {
-  const ui = SpreadsheetApp.getUi();
-  
-  // メインメニューの作成
-  const mainMenu = ui.createMenu(CONFIG.APP_NAME);
-  
-  // メニュー項目の追加
-  mainMenu.addItem('🚀 アプリケーション初期化', 'initializeApp');
-  mainMenu.addItem('▶️ メイン処理実行', 'runMainProcess');
-  mainMenu.addSeparator();
-  
-  // 設定サブメニュー
-  const settingsMenu = ui.createMenu('⚙️ 設定');
-  settingsMenu.addItem('📊 ログ表示', 'showLogSheet');
-  settingsMenu.addItem('🗑️ ログクリア', 'clearLogs');
-  settingsMenu.addItem('ℹ️ アプリケーション情報', 'showAppInfo');
-  
-  mainMenu.addSubMenu(settingsMenu);
-  mainMenu.addSeparator();
-  
-  // テスト・デバッグメニュー（開発モード時のみ）
-  if (CONFIG.ENVIRONMENT.DEBUG_MODE) {
-    const debugMenu = ui.createMenu('🔧 デバッグ');
-    debugMenu.addItem('🧪 テスト実行', 'testRun');
-    debugMenu.addItem('📝 設定確認', 'showConfig');
-    debugMenu.addItem('💾 シート設定', 'setupSheets');
-    
-    mainMenu.addSubMenu(debugMenu);
-  }
-  
-  // ヘルプメニュー
-  mainMenu.addSeparator();
-  mainMenu.addItem('❓ ヘルプ', 'showHelp');
-  
-  // メニューをスプレッドシートに追加
-  mainMenu.addToUi();
-  
-  Logger.log('カスタムメニューが作成されました');
 }
 
 /**
